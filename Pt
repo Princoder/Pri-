@@ -1,0 +1,43 @@
+https://github.com/Princoder/Pr<script>
+    // Set up the scene, camera, and renderer
+    const scene = new THREE.Scene();
+    const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
+    const renderer = new THREE.WebGLRenderer();
+    renderer.setSize(window.innerWidth, window.innerHeight);
+    document.body.appendChild(renderer.domElement);
+
+    // Create the LEGO brick base
+    const brickGeometry = new THREE.BoxGeometry(4, 1, 2);
+    const brickMaterial = new THREE.MeshPhongMaterial({ color: 0xff0000 });
+    const brick = new THREE.Mesh(brickGeometry, brickMaterial);
+    scene.add(brick);
+
+    // Create the studs on top of the LEGO brick
+    const studGeometry = new THREE.CylinderGeometry(0.3, 0.3, 0.2, 32);
+    const studMaterial = new THREE.MeshPhongMaterial({ color: 0xff0000 });
+
+    for (let i = -1.5; i <= 1.5; i += 1) {
+        for (let j = -0.5; j <= 0.5; j += 1) {
+            const stud = new THREE.Mesh(studGeometry, studMaterial);
+            stud.position.set(i, 0.6, j);
+            brick.add(stud);
+        }
+    }
+
+    // Add a light source
+    const light = new THREE.PointLight(0xffffff, 1, 100);
+    light.position.set(10, 10, 10);
+    scene.add(light);
+
+    // Position the camera
+    camera.position.z = 5;
+
+    // Animation loop to render the scene
+    function animate() {
+        requestAnimationFrame(animate);
+        brick.rotation.x += 0.01;
+        brick.rotation.y += 0.01;
+        renderer.render(scene, camera);
+    }
+    animate();
+</script>
